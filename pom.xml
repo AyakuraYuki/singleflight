@@ -6,6 +6,15 @@
   <groupId>io.github.ayakurayuki</groupId>
   <artifactId>singleflight</artifactId>
   <version>1.0.0</version>
+  <name>singleflight</name>
+  <description>Singleflight is a simple tool transplanted from `golang.org/x/sync/singleflight`.</description>
+  <url>https://github.com/AyakuraYuki/singleflight</url>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/AyakuraYuki/singleflight/blob/main/LICENSE</url>
+    </license>
+  </licenses>
 
   <developers>
     <developer>
@@ -15,6 +24,10 @@
       <timezone>+8</timezone>
     </developer>
   </developers>
+
+  <scm>
+    <url>https://github.com/AyakuraYuki/singleflight</url>
+  </scm>
 
   <properties>
     <java.version>1.8</java.version>

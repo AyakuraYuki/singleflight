@@ -3,7 +3,6 @@ package io.github.ayakurayuki.singleflight;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -68,6 +67,7 @@ public class TestGroup {
     int taskAmount = 1000;
     ExecutorService executorService = Executors.newWorkStealingPool((int) (Runtime.getRuntime().availableProcessors() / 0.1 * 2));
 
+    CountDownLatch a = new CountDownLatch(taskAmount);
     for (int i = 0; i < taskAmount; i++) {
       executorService.submit(() -> {
         try {
@@ -82,9 +82,11 @@ public class TestGroup {
         } catch (InterruptedException e) {
           throw new RuntimeException(e);
         }
+        a.countDown();
       });
     }
 
+    CountDownLatch b = new CountDownLatch(taskAmount);
     for (int i = 0; i < taskAmount; i++) {
       executorService.submit(() -> {
         try {
@@ -99,10 +101,13 @@ public class TestGroup {
         } catch (InterruptedException e) {
           throw new RuntimeException(e);
         }
+        b.countDown();
       });
     }
 
-    executorService.awaitTermination(1, TimeUnit.MINUTES);
+    a.await();
+    b.await();
+    executorService.shutdown();
   }
 
 }
