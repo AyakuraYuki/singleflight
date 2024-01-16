@@ -9,7 +9,7 @@ import java.util.function.Supplier;
  * @author Ayakura Yuki
  * @date 2024/01/16-11:09
  */
-public class Group {
+public class Singleflight {
 
   private final Lock mu = new ReentrantLock();
 

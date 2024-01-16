@@ -12,11 +12,11 @@ import org.junit.runners.JUnit4;
  * @date 2024/01/16-11:14
  */
 @RunWith(JUnit4.class)
-public class TestGroup {
+public class TestSingleflight {
 
   @Test
   public void demo() throws InterruptedException {
-    Group singleflightGroup = new Group();
+    Singleflight singleflightSingleflight = new Singleflight();
 
     int taskAmount = 100;
     String key = "singleflight:task:group";
@@ -31,7 +31,7 @@ public class TestGroup {
 
         try {
 
-          String result = singleflightGroup.run(key, () -> {
+          String result = singleflightSingleflight.run(key, () -> {
 
             System.out.println("simulating an IO operate");
 
@@ -63,7 +63,7 @@ public class TestGroup {
 
   @Test
   public void simulateRequest() throws InterruptedException {
-    Group singleflightGroup = new Group();
+    Singleflight singleflightSingleflight = new Singleflight();
     int taskAmount = 1000;
     ExecutorService executorService = Executors.newWorkStealingPool((int) (Runtime.getRuntime().availableProcessors() / 0.1 * 2));
 
@@ -71,7 +71,7 @@ public class TestGroup {
     for (int i = 0; i < taskAmount; i++) {
       executorService.submit(() -> {
         try {
-          String result = singleflightGroup.run("singleflight:simulate:requests:1", () -> {
+          String result = singleflightSingleflight.run("singleflight:simulate:requests:1", () -> {
             System.out.println("simulating an IO operate in request group 1");
             try {
               Thread.sleep(1000L);
@@ -90,7 +90,7 @@ public class TestGroup {
     for (int i = 0; i < taskAmount; i++) {
       executorService.submit(() -> {
         try {
-          String result = singleflightGroup.run("singleflight:simulate:requests:2", () -> {
+          String result = singleflightSingleflight.run("singleflight:simulate:requests:2", () -> {
             System.out.println("simulating an IO operate in request group 2");
             try {
               Thread.sleep(1000L);
