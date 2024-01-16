@@ -69,6 +69,19 @@
         </includes>
       </testResource>
     </testResources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.1.2</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+          <tokenEnabled>true</tokenEnabled>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 
 </project>
