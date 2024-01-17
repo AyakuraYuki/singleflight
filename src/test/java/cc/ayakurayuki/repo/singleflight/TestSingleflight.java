@@ -1,4 +1,4 @@
-package io.github.ayakurayuki.singleflight;
+package cc.ayakurayuki.repo.singleflight;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;

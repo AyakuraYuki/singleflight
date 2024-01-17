@@ -5,7 +5,7 @@ Singleflight is a simple tool transplanted from `golang.org/x/sync/singleflight`
 ## Usage
 
 ```java
-import io.github.ayakurayuki.singleflight.Singleflight;
+import cc.ayakurayuki.repo.singleflight.Singleflight;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

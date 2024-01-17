@@ -1,18 +1,27 @@
-package io.github.ayakurayuki.singleflight;
+package cc.ayakurayuki.repo.singleflight;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * {@link Call} is an in-flight or completed singleflight call.
+ *
  * @author Ayakura Yuki
- * @date 2024/01/16-11:06
  */
 final class Call<T> {
 
+  /**
+   * These fields are written once before the CountDownLatch is counted down
+   * and are only read after the CountDownLatch is all cleared.
+   */
   private T val;
 
   private CountDownLatch wg;
 
+  /**
+   * These fields are incremented in atomic by {@link #incrementDups()} with
+   * the singleflight lock held before the CountDownLatch is all cleared.
+   */
   private AtomicInteger dups;
 
   public T getVal() {
