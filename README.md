@@ -2,6 +2,20 @@
 
 Singleflight is a simple tool transplanted from `golang.org/x/sync/singleflight`. It provides a duplicate function call suppression mechanism.
 
+## How to import
+
+Simply add dependency definition to `pom.xml`.
+
+```xml
+<dependency>
+  <groupId>cc.ayakurayuki.repo</groupId>
+  <artifactId>singleflight</artifactId>
+  <version>1.2.0</version>
+</dependency>
+```
+
+> You can track this tool at sonatype [Maven Central: cc.ayakurayuki.repo:singleflight](https://central.sonatype.com/artifact/cc.ayakurayuki.repo/singleflight).
+
 ## Usage
 
 ```java
