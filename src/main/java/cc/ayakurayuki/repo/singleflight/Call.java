@@ -10,46 +10,46 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 final class Call<T> {
 
-  /**
-   * These fields are written once before the CountDownLatch is counted down
-   * and are only read after the CountDownLatch is all cleared.
-   */
-  private T val;
+    /**
+     * These fields are written once before the CountDownLatch is counted down
+     * and are only read after the CountDownLatch is all cleared.
+     */
+    private T val;
 
-  private CountDownLatch wg;
+    private CountDownLatch wg;
 
-  /**
-   * These fields are incremented in atomic by {@link #incrementDups()} with
-   * the singleflight lock held before the CountDownLatch is all cleared.
-   */
-  private AtomicInteger dups;
+    /**
+     * These fields are incremented in atomic by {@link #incr()} with
+     * the singleflight lock held before the CountDownLatch is all cleared.
+     */
+    private AtomicInteger duplicate;
 
-  public T getVal() {
-    return val;
-  }
-
-  public void setVal(T val) {
-    this.val = val;
-  }
-
-  public void await() throws InterruptedException {
-    this.wg.await();
-  }
-
-  public void lock() {
-    this.wg = new CountDownLatch(1);
-  }
-
-  public void done() {
-    this.wg.countDown();
-  }
-
-  public int incrementDups() {
-    if (this.dups == null) {
-      this.dups = new AtomicInteger(1);
-      return 1;
+    public T getVal() {
+        return val;
     }
-    return this.dups.incrementAndGet();
-  }
+
+    public void setVal(T val) {
+        this.val = val;
+    }
+
+    public void await() throws InterruptedException {
+        this.wg.await();
+    }
+
+    public void init() {
+        this.wg = new CountDownLatch(1);
+    }
+
+    public void done() {
+        this.wg.countDown();
+    }
+
+    public int incr() {
+        if (this.duplicate == null) {
+            this.duplicate = new AtomicInteger(1);
+            return 1;
+        }
+        return this.duplicate.incrementAndGet();
+    }
 
 }
