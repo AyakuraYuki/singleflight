@@ -43,7 +43,7 @@ public class Singleflight {
      *                              while waiting
      */
     @SuppressWarnings("unchecked")
-    public <T> T run(String key, Supplier<T> func)
+    public <T> R<T> run(String key, Supplier<T> func)
             throws InterruptedException {
         this.mu.lock();
         if (this.m == null) {
@@ -55,7 +55,7 @@ public class Singleflight {
             c.incr();
             this.mu.unlock();
             c.await();
-            return c.getVal();
+            return new R<>(c.getVal(), true);
         }
 
         c = new Call<>();
@@ -70,7 +70,7 @@ public class Singleflight {
         this.m.remove(key);
         this.mu.unlock();
 
-        return c.getVal();
+        return new R<>(c.getVal(), c.dups() > 0);
     }
 
     /**

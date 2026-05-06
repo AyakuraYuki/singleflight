@@ -22,7 +22,7 @@ final class Call<T> {
      * These fields are incremented in atomic by {@link #incr()} with
      * the singleflight lock held before the CountDownLatch is all cleared.
      */
-    private AtomicInteger duplicate;
+    private AtomicInteger dups;
 
     public T getVal() {
         return val;
@@ -45,11 +45,15 @@ final class Call<T> {
     }
 
     public int incr() {
-        if (this.duplicate == null) {
-            this.duplicate = new AtomicInteger(1);
+        if (this.dups == null) {
+            this.dups = new AtomicInteger(1);
             return 1;
         }
-        return this.duplicate.incrementAndGet();
+        return this.dups.incrementAndGet();
+    }
+
+    public int dups() {
+        return this.dups.get();
     }
 
 }

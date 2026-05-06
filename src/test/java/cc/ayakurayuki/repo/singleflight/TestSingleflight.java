@@ -29,7 +29,7 @@ public class TestSingleflight {
         for (int i = 0; i < taskAmount; i++) {
             executor.submit(() -> {
                 try {
-                    String result = singleflightSingleflight.run(key, () -> {
+                    R<String> result = singleflightSingleflight.run(key, () -> {
                         System.out.println("simulating an IO operate");
                         try {
                             Thread.sleep(1000L);
@@ -37,7 +37,7 @@ public class TestSingleflight {
                         }
                         return "done";
                     });
-                    System.out.println(result);
+                    assert result != null && result.isShared();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -61,7 +61,7 @@ public class TestSingleflight {
         for (int i = 0; i < taskAmount; i++) {
             executorService.submit(() -> {
                 try {
-                    String result = singleflightSingleflight.run("singleflight:simulate:requests:1", () -> {
+                    R<String> result = singleflightSingleflight.run("singleflight:simulate:requests:1", () -> {
                         System.out.println("simulating an IO operate in request group 1");
                         try {
                             Thread.sleep(1000L);
@@ -69,6 +69,7 @@ public class TestSingleflight {
                         }
                         return "done";
                     });
+                    assert result != null && result.isShared();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -80,7 +81,7 @@ public class TestSingleflight {
         for (int i = 0; i < taskAmount; i++) {
             executorService.submit(() -> {
                 try {
-                    String result = singleflightSingleflight.run("singleflight:simulate:requests:2", () -> {
+                    R<String> result = singleflightSingleflight.run("singleflight:simulate:requests:2", () -> {
                         System.out.println("simulating an IO operate in request group 2");
                         try {
                             Thread.sleep(1000L);
@@ -88,6 +89,7 @@ public class TestSingleflight {
                         }
                         return "done";
                     });
+                    assert result != null && result.isShared();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
